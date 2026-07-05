@@ -1,0 +1,24 @@
+# Free backend hosting — https://render.com
+# Deploy: connect this repo → Render auto-detects this file → get a *.onrender.com URL
+services:
+  - type: web
+    name: ai-visibility-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 run:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: AUTO_SEED
+        value: "true"
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: DATABASE_URL
+        value: sqlite:///instance/app.db
+      - key: LOG_LEVEL
+        value: INFO
