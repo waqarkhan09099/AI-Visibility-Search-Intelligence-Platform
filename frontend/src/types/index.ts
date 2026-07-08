@@ -203,12 +203,81 @@ export interface RunPipelineInput {
   model_id?: string
 }
 
+export interface RankedItem {
+  name: string
+  count: number
+}
+
+export interface VisibilityStats {
+  total_mentions: number
+  total_mentions_label: string
+  ai_search_volume: number
+  ai_search_volume_label: string
+  total_impressions: number
+  total_impressions_label: string
+  top_source_domains: RankedItem[]
+  top_brand_entities: RankedItem[]
+}
+
+export interface MentionRow {
+  id: number
+  profile_id: number
+  profile_name: string
+  query_text: string
+  platform: string
+  mentioned: boolean
+  ai_search_vol: number
+  sources: number
+  snippet: string
+  sov: number
+  location: string
+  last_checked: string | null
+}
+
+export interface MentionsPage {
+  items: MentionRow[]
+  total: number
+  page: number
+  limit: number
+  pages: number
+}
+
+export interface VisibilityBreakdownRow {
+  query_text: string
+  score: number
+  source_volume: number
+}
+
+export interface VisibilitySummary {
+  score: number
+  trend_pct: number
+  trend_label: string
+  breakdown: VisibilityBreakdownRow[]
+}
+
+export interface ShareOfVoiceItem {
+  name: string
+  sov: number
+  is_you: boolean
+}
+
 export interface DashboardData {
   total_profiles: number
   average_opportunity: number
   total_queries: number
   pipeline_status: string
   recent_profiles: Profile[]
+  stats: VisibilityStats
+  mentions: MentionsPage
+  visibility: VisibilitySummary
+  share_of_voice: ShareOfVoiceItem[]
+}
+
+export interface DashboardFilters {
+  page?: number
+  limit?: number
+  search?: string
+  engine?: string
 }
 
 export interface ChartBucket {

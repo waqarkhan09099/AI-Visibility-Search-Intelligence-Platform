@@ -1,7 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, request
 
 from app.models import PipelineRun, Profile, Query
 from app.schemas.profile import ProfileSchema
+from app.services.visibility_dashboard_service import VisibilityDashboardService
 
 dashboard_bp = Blueprint("dashboard", __name__)
 profile_schema = ProfileSchema(many=True)
@@ -9,6 +10,11 @@ profile_schema = ProfileSchema(many=True)
 
 @dashboard_bp.route("/dashboard", methods=["GET"])
 def get_dashboard():
+  page = request.args.get("page", 1, type=int)
+  limit = request.args.get("limit", 4, type=int)
+  search = request.args.get("search", "", type=str)
+  engine = request.args.get("engine", "all", type=str)
+
   profiles = Profile.query.order_by(Profile.created_at.desc()).all()
   total_queries = Query.query.count()
   scored = [q.opportunity_score for q in Query.query.filter_by(status="scored").all()]
@@ -17,6 +23,13 @@ def get_dashboard():
   running = PipelineRun.query.filter_by(status="running").count()
   pipeline_status = "running" if running else "idle"
 
+  visibility = VisibilityDashboardService.build(
+    engine=engine,
+    page=page,
+    limit=limit,
+    search=search,
+  )
+
   return {
     "data": {
       "total_profiles": len(profiles),
@@ -24,6 +37,7 @@ def get_dashboard():
       "total_queries": total_queries,
       "pipeline_status": pipeline_status,
       "recent_profiles": profile_schema.dump(profiles[:6]),
+      **visibility,
     }
   }
 

@@ -40,7 +40,7 @@ export function Sidebar() {
     <aside className="hidden w-60 shrink-0 border-r bg-card lg:flex lg:flex-col">
       <div className="flex h-16 items-center gap-2 border-b px-6">
         <Sparkles className="h-5 w-5 text-primary" />
-        <span className="font-semibold">AI Visibility</span>
+        <span className="font-semibold">AI Search Visibility</span>
       </div>
       <div className="flex flex-1 flex-col gap-4 p-4">
         <NavItems />
@@ -60,7 +60,7 @@ export function MobileNav() {
       <SheetContent side="left">
         <div className="mb-6 flex items-center gap-2">
           <BarChart3 className="h-5 w-5 text-primary" />
-          <span className="font-semibold">AI Visibility</span>
+          <span className="font-semibold">AI Search Visibility</span>
         </div>
         <NavItems />
       </SheetContent>
@@ -75,10 +75,10 @@ export function Topbar() {
         <MobileNav />
         <div className="lg:hidden flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          <span className="font-semibold">AI Visibility</span>
+          <span className="font-semibold">AI Search Visibility</span>
         </div>
       </div>
-      <p className="hidden text-sm text-muted-foreground sm:block">Intelligence Platform</p>
+      <p className="hidden text-sm text-muted-foreground sm:block">Search Visibility Platform</p>
       <ThemeToggle />
     </header>
   )
